@@ -9,7 +9,7 @@ namespace DataAccessLogic.Interfaces
 {
     public interface IAdminUserActivityDAL
     {
-        void LogActivity(int adminId, int userId, string action); // Метод для логування дій адміністратора
+        bool LogActivity(int adminId, int userId, string action); // Метод для логування дій адміністратора
         List<AdminUserActivity> GetActivityLog();
 
 

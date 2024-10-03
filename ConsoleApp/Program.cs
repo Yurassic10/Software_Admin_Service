@@ -15,22 +15,44 @@ public class Program
         //string connStr = "Data Source=DESKTOP-NALH133;Initial Catalog=Administrator_Service;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
 
         MenuConsole.Introdusing();
+        var administrator = new AdministratorDAL(connStr);
 
+        MenuConsole.LoginOrRegister();
+        int first_choice=Convert.ToInt32(Console.ReadLine());
+
+        if(first_choice==1)
+        {
+            Console.WriteLine("\nInput Admin name to register:");
+            string New_AdminName = Console.ReadLine();
+            Console.WriteLine("\nInput Password to register:");
+            string New_Password = Console.ReadLine();
+            administrator.AddAdministrator(New_AdminName,New_Password);
+            Console.WriteLine("Registrated successfully!");
+            Console.ReadKey();
+            Console.Clear();
+        }
+       
         Console.WriteLine("\nInput Admin name to enter:");
         string temp_adminName = Console.ReadLine();
         Console.WriteLine("\nInput Password to enter:");
         string temp_password = Console.ReadLine();
-        var administrator = new AdministratorDAL(connStr);
+        
+       
         var activityDal = new AdminUserActivityDAL(connStr);
         var User = new UserDAL(connStr);
 
-        if (true)
+
+
+        if (administrator.Login(temp_adminName, temp_password))
         {
-            while (administrator.Login(temp_adminName, temp_password))
+            Console.WriteLine("Login successful!");
+            int choice = -1; 
+
+            while (choice != 0)
             {
-                Console.WriteLine("Login successful!");
                 MenuConsole.ShowMenu();
-                int choice = Convert.ToInt32(Console.ReadLine());
+                choice = Convert.ToInt32(Console.ReadLine());
+
                 switch (choice)
                 {
                     case 1:
@@ -43,35 +65,25 @@ public class Program
                                 switch (ans)
                                 {
                                     case 1:
-                                        {
-                                            GetAllAdmins(); 
-                                        }
+                                        GetAllAdmins();
                                         break;
                                     case 2:
-                                        {
-                                            AdminDeleteUserById(); // 
-                                        }
+                                        AdminDeleteUserById();
                                         break;
                                     case 3:
-                                        {
-                                            AdminActivateUserById(); 
-                                        }
+                                        AdminActivateUserById();
                                         break;
                                     case 4:
-                                        {
-                                            AdminBlockUserById(); 
-                                        }
+                                        AdminBlockUserById();
                                         break;
                                     case 5:
-                                        {
-                                            operationShowAdmins = false;
-                                        }
+                                        operationShowAdmins = false;
                                         break;
                                 }
                             } while (operationShowAdmins);
-
                         }
                         break;
+
                     case 2:
                         {
                             bool operationShowUser = true;
@@ -82,30 +94,22 @@ public class Program
                                 switch (ans)
                                 {
                                     case 1:
-                                        {
-                                            SeeAllUsers();
-                                        }
+                                        SeeAllUsers();
                                         break;
                                     case 2:
-                                        {
-                                            SearchUserById(); 
-                                        }
+                                        SearchUserById();
                                         break;
                                     case 3:
-                                        {
-
-                                            SortAllUsers(); 
-                                        }
+                                        SortAllUsers();
                                         break;
                                     case 4:
-                                        {
-                                            operationShowUser = false;
-                                        }
+                                        operationShowUser = false;
                                         break;
                                 }
                             } while (operationShowUser);
                         }
                         break;
+
                     case 3:
                         {
                             bool operationShowAction = true;
@@ -116,18 +120,21 @@ public class Program
                                 switch (ans)
                                 {
                                     case 1:
-                                        {
-                                            SeeAllActivityLogged(); 
-                                        }
+                                        SeeAllActivityLogged();
                                         break;
                                     case 2:
-                                        {
-                                            operationShowAction = false;
-                                        }
+                                        operationShowAction = false;
                                         break;
                                 }
                             } while (operationShowAction);
                         }
+                        break;
+
+                    case 0:
+                        break;
+
+                    default:
+                        Console.WriteLine("Wrong choice!");
                         break;
                 }
             }

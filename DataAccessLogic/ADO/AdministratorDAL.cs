@@ -29,12 +29,12 @@ namespace DataAccessLogic.ADO
 
         public void ActivateUser(int userId)
         {
-            UpdateUserStatus(userId, true);
+            UpdateUserStatus(userId, false);
         }
 
         public void BlockUser(int userId)
         {
-            UpdateUserStatus(userId, false);
+            UpdateUserStatus(userId, true);
         }
 
         public bool Login(string username, string password)
@@ -142,5 +142,35 @@ namespace DataAccessLogic.ADO
                 return adminId;
             }
         }
+        public bool AddAdministrator(string username, string password)
+        {
+            bool isAdd = true;
+            try
+            {
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    // SQL-запит для вставки нового адміністратора
+                    command.CommandText = "INSERT INTO tblAdministrator (Username, Password, CreatedAt, IsActive) VALUES (@username, @password, @createdAt, @isActive)";
+
+                    // Додаємо параметри
+                    command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@password", password);
+                    command.Parameters.AddWithValue("@createdAt", DateTime.Now);  // Дата створення
+                    command.Parameters.AddWithValue("@isActive", true);
+
+                    // Відкриваємо з'єднання, виконуємо команду і закриваємо з'єднання
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                    // Console.WriteLine("Administrator registrated successfully.");
+                }
+            }catch(Exception ex)
+            {
+                isAdd = false;
+            }
+            return isAdd;
+        }
+
     }
 }

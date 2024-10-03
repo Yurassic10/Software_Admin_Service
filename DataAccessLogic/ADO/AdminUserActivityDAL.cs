@@ -50,19 +50,28 @@ namespace DataAccessLogic.ADO
             return activities;
         }
 
-        public void LogActivity(int adminId, int userId, string action)
+        public bool LogActivity(int adminId, int userId, string action)
         {
-            using(SqlCommand command=connection.CreateCommand())
+            bool Added = true;
+
+            try
             {
-                command.CommandText= "INSERT INTO tblAdminUserActivity (AdminID, UserID, Action, Timestamp) VALUES (@adminId, @userId, @action, @timestamp)";
-                command.Parameters.AddWithValue("@adminId", adminId);
-                command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@action", action);
-                command.Parameters.AddWithValue("@timestamp", DateTime.Now);
-                connection.Open(); 
-                command.ExecuteNonQuery();
-                connection.Close();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "INSERT INTO tblAdminUserActivity (AdminID, UserID, Action, Timestamp) VALUES (@adminId, @userId, @action, @timestamp)";
+                    command.Parameters.AddWithValue("@adminId", adminId);
+                    command.Parameters.AddWithValue("@userId", userId);
+                    command.Parameters.AddWithValue("@action", action);
+                    command.Parameters.AddWithValue("@timestamp", DateTime.Now);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }catch (Exception ex)
+            {
+                Added = false;
             }
+            return Added;
         }
     }     
 }

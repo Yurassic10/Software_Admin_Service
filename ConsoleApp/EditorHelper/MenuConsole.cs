@@ -10,8 +10,12 @@ namespace ConsoleApp.EditorHelper
     {
         public static void Introdusing()
         {
-            Console.WriteLine("\t\t\t\tWELCOME to the menu! Please log in to continue \n");
-            Console.ReadKey();
+            Console.WriteLine("\t\t\t\tWELCOME to the menu! \n");
+        }
+        public static void LoginOrRegister() 
+        {
+            Console.WriteLine("\n1. Register"
+                +"\n2. Login");
         }
         public static void ShowMenu()
         {
@@ -20,6 +24,7 @@ namespace ConsoleApp.EditorHelper
             + "\n1. Do action with Admin."
             + "\n2. Do actions with user."
             + "\n3. See Admin-User activity."
+            + "\n0. Exit."
             + "\nYour choice:");
         }
         public static void ShowAdminMenu()

@@ -12,5 +12,6 @@ namespace DataAccessLogic.Interfaces
         List<User> GetAllUsers();
         User SearchUserById(int userId);
         List<User> SortUsers(string sortBy, string order);
+       // bool AddUser(string username, string password);
     }
 }

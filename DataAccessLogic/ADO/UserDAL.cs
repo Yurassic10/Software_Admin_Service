@@ -82,27 +82,35 @@ namespace DataAccessLogic.ADO
 
         public List<User> SortUsers(string sortBy, string order)
         {
-            var users = new List<User>();
-            using (SqlCommand command = connection.CreateCommand())
-            {
-                string query = $"SELECT UserID,Username,Email FROM tblUser ORDER BY {sortBy} {order}";
-                command.CommandText = query;
+            //var users = new List<User>();
+            //using (SqlCommand command = connection.CreateCommand())
+            //{
+            //    string query = $"SELECT UserID,Username,Email FROM tblUser ORDER BY {sortBy} {order}";
+            //    command.CommandText = query;
 
-                connection.Open();
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        users.Add(new User
-                        {
-                            UserID = (int)reader["UserID"],
-                            Username = reader["Username"].ToString(),
-                            Email = reader["Email"].ToString(),
-                        });
-                    }
-                }
+            //    connection.Open();
+            //    using (var reader = command.ExecuteReader())
+            //    {
+            //        while (reader.Read())
+            //        {
+            //            users.Add(new User
+            //            {
+            //                UserID = (int)reader["UserID"],
+            //                Username = reader["Username"].ToString(),
+            //                Email = reader["Email"].ToString(),
+            //            });
+            //        }
+            //    }
+            //}
+            //return users;
+
+            var users = GetAllUsers();
+            var usersSorted = new List<User>();
+            foreach (var user in users.OrderBy(u => u.Username))
+            {
+                usersSorted.Add(user);
             }
-            return users;
+            return usersSorted;
         }
     }
 }
