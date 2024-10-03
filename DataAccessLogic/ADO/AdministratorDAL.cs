@@ -149,16 +149,14 @@ namespace DataAccessLogic.ADO
             {
                 using (SqlCommand command = connection.CreateCommand())
                 {
-                    // SQL-запит для вставки нового адміністратора
                     command.CommandText = "INSERT INTO tblAdministrator (Username, Password, CreatedAt, IsActive) VALUES (@username, @password, @createdAt, @isActive)";
 
-                    // Додаємо параметри
                     command.Parameters.AddWithValue("@username", username);
                     command.Parameters.AddWithValue("@password", password);
-                    command.Parameters.AddWithValue("@createdAt", DateTime.Now);  // Дата створення
+                    command.Parameters.AddWithValue("@createdAt", DateTime.Now); 
                     command.Parameters.AddWithValue("@isActive", true);
 
-                    // Відкриваємо з'єднання, виконуємо команду і закриваємо з'єднання
+
                     connection.Open();
                     command.ExecuteNonQuery();
                     connection.Close();
